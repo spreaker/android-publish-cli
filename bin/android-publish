@@ -23,9 +23,8 @@ def main():
     trackName    = args.track
 
     # Load the key in PKCS 12 format that you downloaded from the Google APIs console when you created your Service account.
-    f = file(args.keystore, 'rb')
-    keystore = f.read()
-    f.close()
+    with open(args.keystore, 'rb') as f:
+        keystore = f.read()
 
     # Create an httplib2.Http object to handle our HTTP requests and authorize it
     # with the Credentials. Note that the first parameter, service_account_name,
