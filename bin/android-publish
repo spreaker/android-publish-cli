@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+
+import argparse
+import httplib2
+from oauth2client import client
+from apiclient.discovery import build
+
+# Declare command-line flags.
+parser = argparse.ArgumentParser(description="Uploads and publish a new APK for an existing app")
+parser.add_argument('--email', '-e', dest='email', required=True, help='The service account email')
+parser.add_argument('--key', '-k', dest='keystore', required=True, help='The keystore filepath')
+parser.add_argument('--package', '-p', dest='package', required=True, help='The package name. Example: com.android.sample')
+parser.add_argument('--track', '-t', dest='track', required=False, default='production', help='The package name. Example: com.android.sample')
+parser.add_argument('apk', help='The APK filepath')
+
+def main():
+
+    # Parse command line arguments
+    args         = parser.parse_args()
+    serviceEmail = args.email
+    packageName  = args.package
+    apkFilepath  = args.apk
+    trackName    = args.track
+
+    # Load the key in PKCS 12 format that you downloaded from the Google APIs console when you created your Service account.
+    f = file(args.keystore, 'rb')
+    keystore = f.read()
+    f.close()
+
+    # Create an httplib2.Http object to handle our HTTP requests and authorize it
+    # with the Credentials. Note that the first parameter, service_account_name,
+    # is the Email address created for the Service account. It must be the email
+    # address associated with the key that was created.
+    credentials = client.SignedJwtAssertionCredentials(serviceEmail, keystore, scope='https://www.googleapis.com/auth/androidpublisher')
+    http = httplib2.Http()
+    http = credentials.authorize(http)
+
+    service = build('androidpublisher', 'v2', http=http)
+
+    # Create edit request
+    editRequest  = service.edits().insert(body={}, packageName=packageName)
+    editResponse = editRequest.execute()
+    editId       = editResponse['id']
+
+    # TODO DEBUG
+    print 'EDIT: %r' % editResponse
+
+    # Upload APK
+    uploadResponse = service.edits().apks().upload(
+        editId=editId, packageName=packageName, media_body=apkFilepath
+    ).execute()
+
+    # TODO DEBUG
+    print 'UPLOAD: %r' % uploadResponse
+
+    print 'Version code %d has been uploaded' % uploadResponse['versionCode']
+
+    # Assign APK to track
+    trackResponse = service.edits().tracks().update(
+        editId=editId, track=trackName, packageName=packageName,
+        body={u'versionCodes': [uploadResponse['versionCode']]}
+    ).execute()
+
+    # TODO DEBUG
+    print 'TRACK: %r' % trackResponse
+
+    print 'Track %s is set for version code(s) %s' % (
+        trackResponse['track'], str(trackResponse['versionCodes'])
+    )
+
+    # Commit
+    commitResponse = service.edits().commit(
+        editId=editId, packageName=packageName
+    ).execute()
+
+    # TODO DEBUG
+    print 'COMMIT: %r' % commitResponse
+
+    print 'Edit "%s" has been committed' % (commitResponse['id'])
+
+if __name__ == '__main__':
+    main()
