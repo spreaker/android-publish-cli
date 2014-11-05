@@ -1,6 +1,6 @@
 
 from __future__ import print_function
-from distutils.core import setup
+from setuptools import setup
 import sys
 
 
@@ -8,9 +8,14 @@ if sys.version_info < (2, 6):
     print('google-api-python-client requires python version >= 2.6.', file = sys.stderr)
     sys.exit(1)
 
+install_requires = ['google-api-python-client==1.3.1']
+
+if sys.version_info < (2, 7):
+    install_requires.append('argparse')
+
 setup(
     name                = 'android-publish-cli',
-    packages            = ['android-publish-cli'],
+    packages            = [],
     version             = '0.1',
     description         = 'A simple CLI for Google Play Publish API',
     author              = 'Spreaker',
@@ -19,6 +24,6 @@ setup(
     download_url        = 'https://github.com/spreaker/android-publish-cli/tarball/0.1',
     keywords            = ['android', 'automation', 'google'],
     classifiers         = [],
-    install_requires    = ['google-api-python-client=1.3.1'],
+    install_requires    = install_requires,
     scripts             = ['bin/android-publish']
 )
