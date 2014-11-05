@@ -32,22 +32,22 @@ Follow [this guide](https://developers.google.com/android-publisher/getting_star
 ```
 positional arguments:
   apk                   The APK filepath
-  
+
 other arguments:
-  --email/-e EMAIL 		The service account email
-  --key/-k KEY     		The key filepath
-  --package/-p PACKAGE	The package name. Example: com.android.sample
-  --track/-t TRACK		The track. Could be 'alpha', beta', 'production' or 'rollout' (optional, default: production)
-  --changes/-c CHANGES Recent changes (optional)
+  --email/-e EMAIL      The service account email
+  --key/-k KEY          The key filepath
+  --package/-p PACKAGE  The package name. Example: com.android.sample
+  --track/-t TRACK      The track. Could be 'alpha', beta', 'production' or 'rollout' (optional, default: production)
+  --changes/-c CHANGES  Recent changes (optional)
 ```
 
 ## Example
 
 ```
-$ android-publish 
-	--email "your.service.account.email@developer.gserviceaccount.com" \
-	--key "/path/to/your/service/account/key/file.p12" \
-	--package "com.yourcompany.yourapp" \
+$ android-publish
+  --email "your.service.account.email@developer.gserviceaccount.com" \
+  --key "/path/to/your/service/account/key/file.p12" \
+  --package "com.yourcompany.yourapp" \
     --track "production" \
     --changes "Updated the app for Android 5.0" \
     "/path/to/your/apk/file.apk"
