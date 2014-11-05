@@ -16,7 +16,7 @@ if sys.version_info < (2, 7):
 setup(
     name                = 'android-publish-cli',
     packages            = [],
-    version             = '0.1',
+    version             = '0.1.0',
     description         = 'A simple CLI for Google Play Publish API',
     author              = 'Spreaker',
     author_email        = 'dev@spreaker.com',
