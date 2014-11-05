@@ -48,9 +48,9 @@ $ android-publish
   --email "your.service.account.email@developer.gserviceaccount.com" \
   --key "/path/to/your/service/account/key/file.p12" \
   --package "com.yourcompany.yourapp" \
-    --track "production" \
-    --changes "Updated the app for Android 5.0" \
-    "/path/to/your/apk/file.apk"
+  --track "production" \
+  --changes "Updated the app for Android 5.0" \
+  "/path/to/your/apk/file.apk"
 ```
 
 
