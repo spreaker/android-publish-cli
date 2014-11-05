@@ -21,7 +21,7 @@ setup(
     author              = 'Spreaker',
     author_email        = 'dev@spreaker.com',
     url                 = 'https://github.com/spreaker/android-publish-cli',
-    download_url        = 'https://github.com/spreaker/android-publish-cli/tarball/0.1',
+    download_url        = 'https://github.com/spreaker/android-publish-cli/tarball/0.1.0',
     keywords            = ['android', 'automation', 'google'],
     classifiers         = [],
     install_requires    = install_requires,
