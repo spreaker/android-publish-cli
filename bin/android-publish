@@ -70,7 +70,7 @@ def main():
     print 'Track %s is set for version code(s) %s' % (trackResponse['track'], str(trackResponse['versionCodes']))
 
     # Recent changes
-    if changes is not None:
+    if changes:
 
         detailsResponse = service.edits().details().get(
             editId=editId, packageName=packageName
